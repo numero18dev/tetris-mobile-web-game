@@ -1,0 +1,54 @@
+name: "Godot 4 HTML5 Export"
+on:
+  push:
+    branches: [ main ]
+
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: index
+
+jobs:
+  export-web:
+    name: Web Export
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Web Build
+        run: |
+          mkdir -v -p build/web
+          godot -v --headless --export-release "Web" build/web/index.html
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: export-web
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

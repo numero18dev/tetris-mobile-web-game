@@ -1,0 +1,110 @@
+[gd_scene load_steps=3 format=3 uid="uid://main"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://c515a" path="res://Board.tscn" id="2_board"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Board" parent="." instance=ExtResource("2_board")]
+visible = false
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="BGMPlayer" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="SFXRotate" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="SFXHardDrop" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="SFXLock" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="SFXClear" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "TETRIS CLONE"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -25.0
+offset_right = 50.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Jugar"
+
+[node name="GameOverMenu" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GameOverMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 200.0
+offset_right = 100.0
+offset_bottom = 250.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="CanvasLayer/GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -25.0
+offset_right = 50.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Reintentar"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 100.0
+text = "Score: 0
+Lines: 0
+Level: 1"
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOverMenu/RetryButton" to="." method="_on_retry_button_pressed"]
