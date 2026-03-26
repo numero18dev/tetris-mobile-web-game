@@ -69,7 +69,7 @@ func _on_lines_cleared(count):
     # Simple visual effect for line clear
     var flash = ColorRect.new()
     flash.color = Color(1, 1, 1, 0.5)
-    flash.set_anchors_preset(PRESET_FULL_RECT)
+    flash.set_anchors_preset(Control.PRESET_FULL_RECT)
     $CanvasLayer.add_child(flash)
     var tween = create_tween()
     tween.tween_property(flash, "modulate:a", 0.0, 0.2)
